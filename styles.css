@@ -1,3 +1,30 @@
+#schedule-results {
+  width: 100%;
+
+  box-shadow: 1px 4px 5px 0px rgba(0, 0, 0, 0.31);
+  -webkit-box-shadow: 1px 4px 5px 0px rgba(0, 0, 0, 0.31);
+  -moz-box-shadow: 1px 4px 5px 0px rgba(0, 0, 0, 0.31);
+}
+
+#table-heading-row {
+  background-color: darkgray;
+  color: white;
+}
+
+.table-row a {
+  color: blue;
+}
+
+.table-row:nth-child(even) {
+  background-color: lightsteelblue;
+}
+
+@media (max-width: 440px) {
+  #schedule-results {
+    font-size: 10px;
+  }
+}
+
 .img-wrapper {
   height: 500px;
 }
