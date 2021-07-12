@@ -37,14 +37,14 @@
                         aria-selected="true">Race Schedule</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
+                    <button class="nav-link" id="pills-results-tab" data-bs-toggle="pill"
                         data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"
                         aria-selected="false">Race Results</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill"
-                        data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact"
-                        aria-selected="false">Driver Info</button>
+                    <button class="nav-link" id="pills-drivers-tab" data-bs-toggle="pill" data-bs-target="#pills-driver"
+                        type="button" role="tab" aria-controls="pills-driver" aria-selected="false">Current
+                        Drivers</button>
                 </li>
             </ul>
 
@@ -72,32 +72,14 @@
                     </section>
                 </div>
                 <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                    <section id="api-results">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Special title treatment</h5>
-                                        <p class="card-text">With supporting text below as a natural lead-in to
-                                            additional content.</p>
-                                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Emilia Romanga Grand Prix</h5>
-                                        <p class="card-text">The Emilia Romanga Grand Prix is scheduled for 2021-03-08
-                                            at 15:00:00Z to be held in Imola, Italy</p>
-                                        <a href="#" class="btn btn-primary">Wiki Race Info</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+                    <select id="select-round">
+                        <option>Choose Round to View Results</option>
+                    </select>
+                    <div id="round-results"></div>
                 </div>
-                <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">...
+                <div class="tab-pane fade" id="pills-driver" role="tabpanel" aria-labelledby="pills-contact-tab">
+                    <div class="row" id="display-driver">
+                    </div>
                 </div>
             </div>
 

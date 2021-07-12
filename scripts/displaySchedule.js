@@ -1,6 +1,6 @@
-function displaySchedule(scheduleObj, apiResults) {
-  console.log(scheduleObj);
+const apiResults = document.getElementById('api-results');
 
+function displaySchedule(scheduleObj) {
   const accordionItems = scheduleObj.map((schedule, index) => {
     const {
       date,
@@ -31,8 +31,8 @@ function displaySchedule(scheduleObj, apiResults) {
     // console.log('Hours UTC:   ' + concateFullDate.getUTCHours());
 
     const localTime = concateFullDate.toString();
-    console.log(localTime.split(' '));
-    console.log(localTime.split(' ')[4].substr(0, 5) + localTime.split(' ')[6]);
+    // console.log(localTime.split(' '));
+    // console.log(localTime.split(' ')[4].substr(0, 5) + localTime.split(' ')[6]);
 
     // console.log(
     //   'Month:   ' +
