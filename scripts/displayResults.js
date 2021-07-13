@@ -1,5 +1,6 @@
 import { fetchAPI } from './fetchEngine.js';
 import { ERGAST_DEVELOPER_API } from './ergastAPI.js';
+import { removeResults } from './removeResults.js';
 
 const selectRound = document.getElementById('select-round');
 const roundResults = document.getElementById('round-results');
@@ -24,10 +25,7 @@ selectRound.addEventListener('change', (e) => {
 // Display Results
 async function displayResults(e) {
   if (e.target.value === 'Choose Round to View Results') {
-    while (roundResults.firstElementChild) {
-      circuitName.textContent = '';
-      roundResults.removeChild(roundResults.firstElementChild);
-    }
+    removeResults();
     return;
   }
 
@@ -37,8 +35,6 @@ async function displayResults(e) {
   const selectedCircuit =
     circuitOptions[selectRound.selectedIndex].dataset.circuit;
 
-  console.log(selectRound.selectedIndex);
-
   // display name of circuit
   circuitName.textContent = `${selectedCircuit}, Round ${round}`;
 
@@ -46,36 +42,61 @@ async function displayResults(e) {
 
   const resultsParameter = `current/${round}/results.json`;
   const raceResults = await fetchAPI(ERGAST_DEVELOPER_API + resultsParameter);
-  const resultsArray = raceResults.RaceTable.Races[0].Results;
-  console.log(resultsArray);
 
-  // create HTML and display to DOM
+  // check if race results exist
+  // no race results indicate race did not happen or awaiting results
+  if (raceResults.total === '0') {
+    // remove anything display
+    removeResults();
 
-  const results = resultsArray
-    .map((result) => {
-      const driver = result.Driver.givenName + ' ' + result.Driver.familyName;
-      const sponsor = result.Constructor.name;
-      const driverNumber = result.Driver.permanentNumber;
-      const driverFinish = result.position;
-      const driverPoints = result.points;
-      const driverStatus = result.status;
+    // display selection so user knows what they selected
+    circuitName.textContent = `${selectedCircuit}, Round ${round}`;
 
-      let resultTime;
-      let avgSpeed;
+    // create message for user about race results do not exist
+    const para = document.createElement('p');
+    para.classList.add('no-results-message');
+    para.textContent =
+      'This race has no results to share.  It is possible you are asking to view race results for a race that has not yet completed.  Please check the Schedule.';
 
-      if (result.Time) {
-        resultTime = result.Time.time;
-      } else {
-        resultTime = 'DNF';
-      }
+    //add message to DOM
+    circuitName.insertAdjacentElement('afterend', para);
 
-      if (result.FastestLap) {
-        avgSpeed = result.FastestLap.AverageSpeed.speed + ' kph';
-      } else {
-        avgSpeed = 'n/a';
-      }
+    // ELSE if race results do exist then...
+  } else {
+    // if error message exists, then remove before displaying results
+    if (document.querySelector('.no-results-message') != null) {
+      document.querySelector('.no-results-message').remove();
+    }
 
-      return `<li class="list-group-item">
+    // gather race results and place into an array
+    const resultsArray = raceResults.RaceTable.Races[0].Results;
+
+    // create HTML and display to DOM
+    const results = resultsArray
+      .map((result) => {
+        const driver = result.Driver.givenName + ' ' + result.Driver.familyName;
+        const sponsor = result.Constructor.name;
+        const driverNumber = result.Driver.permanentNumber;
+        const driverFinish = result.position;
+        const driverPoints = result.points;
+        const driverStatus = result.status;
+
+        let resultTime;
+        let avgSpeed;
+
+        if (result.Time) {
+          resultTime = result.Time.time;
+        } else {
+          resultTime = 'DNF';
+        }
+
+        if (result.FastestLap) {
+          avgSpeed = result.FastestLap.AverageSpeed.speed + ' kph';
+        } else {
+          avgSpeed = 'n/a';
+        }
+
+        return `<li class="list-group-item">
     <div class="d-flex justify-content-between align-items-center">
         <h4 class="fw-bold">
             ${driver}
@@ -102,10 +123,11 @@ async function displayResults(e) {
         </tr>
     </table>
 </li>`;
-    })
-    .join('');
+      })
+      .join('');
 
-  roundResults.innerHTML = results;
+    roundResults.innerHTML = results;
+  }
 }
 
 export { createResultsList };
