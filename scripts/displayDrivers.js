@@ -1,10 +1,13 @@
+import { convertDate } from './convertDate.js';
+
 const output = document.querySelector('#display-driver');
 
 async function displayDrivers(driversArray) {
+  console.log(driversArray);
   const drivers = Promise.all(
     driversArray.map(async function (driver) {
       const {
-        driverId,
+        dateOfBirth,
         givenName: first,
         familyName: last,
         permanentNumber: raceNumber,
@@ -13,8 +16,10 @@ async function displayDrivers(driversArray) {
       } = driver;
 
       const driverName = `${driver.givenName} ${driver.familyName}`;
-
       const driverUrl = await findPhoto(driverName);
+
+      const birth = new Date(dateOfBirth).toString().split(' ');
+      const birthDay = `${birth[1]} ${birth[2]}, ${birth[3]}`;
 
       return `<div class="col-lg-4 mb-3">
       <div class="card">
@@ -23,8 +28,7 @@ async function displayDrivers(driversArray) {
         </div>
           <div class="card-body">
               <h5 class="card-title">${driverName}</h5>
-              <p class="card-text">With supporting text below as a natural lead-in to additional
-                  content.</p>
+              <p class="card-text">Driving the #${raceNumber} car, ${first} is of ${nationality} nationality with a birthdate of ${birthDay}. </p>
               <a href="${url}" class="btn btn-primary" target="_blank" rel="noopener">LEARN MORE</a>
           </div>
       </div>
