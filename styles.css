@@ -15,8 +15,13 @@
   color: blue;
 }
 
-.table-row:nth-child(even) {
+.table-row:nth-child(even),
+#round-results li:nth-child(even) {
   background-color: lightsteelblue;
+}
+
+#round-results li:nth-child(odd) {
+  background-color: lightyellow;
 }
 
 .sponsor {
