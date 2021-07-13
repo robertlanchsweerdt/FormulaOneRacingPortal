@@ -3,6 +3,7 @@ import { ERGAST_DEVELOPER_API } from './ergastAPI.js';
 
 const selectRound = document.getElementById('select-round');
 const roundResults = document.getElementById('round-results');
+const circuitName = document.getElementById('circuit-name');
 
 // Populate Select element
 function createResultsList(scheduleArray) {
@@ -31,9 +32,31 @@ async function displayResults(e) {
   const resultsArray = raceResults.RaceTable.Races[0].Results;
   console.log(resultsArray);
 
-  //   const results = resultsArray((result) => {
+  const results = resultsArray.map((result) => {
+    const driver = result.Driver.givenName + ' ' + result.Driver.familyName;
+    const sponsor = result.Constructor.name;
+    const driverNumber = result.Driver.permanentNumber;
+    const driverFinish = result.position;
+    const driverPoints = result.points;
+    const driverStatus = result.status;
 
-  //   })
+    let resultTime;
+
+    if (result.Time) {
+      resultTime = result.Time.time;
+    } else {
+      resultTime = 'DNF';
+    }
+
+    console.log(
+      driver,
+      resultTime,
+      sponsor,
+      driverNumber,
+      driverPoints,
+      driverStatus
+    );
+  });
 }
 
 export { createResultsList };

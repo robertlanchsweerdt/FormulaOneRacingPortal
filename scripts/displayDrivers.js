@@ -15,6 +15,7 @@ async function displayDrivers(driversArray) {
       const driverName = `${driver.givenName} ${driver.familyName}`;
 
       const driverUrl = await findPhoto(driverName);
+
       return `<div class="col-lg-4 mb-3">
       <div class="card">
         <div class="img-wrapper">
