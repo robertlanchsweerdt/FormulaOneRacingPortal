@@ -1,10 +1,14 @@
-import { convertDate } from './convertDate.js';
+const driverOutput = document.querySelector('#display-driver');
 
-const output = document.querySelector('#display-driver');
-
+// DISPLAY DRIVERS
 async function displayDrivers(driversArray) {
-  console.log(driversArray);
+  // Promise.all() is used with the map() method when a
+  // Promise is used within the map() loop and the multiple Promises
+  // must fully resolve
   const drivers = Promise.all(
+    // needed to set-up an async within call back function because
+    // a Promise exists within the loop to fetch the photo
+    // for each driver
     driversArray.map(async function (driver) {
       const {
         dateOfBirth,
@@ -15,12 +19,19 @@ async function displayDrivers(driversArray) {
         url,
       } = driver;
 
+      // varible contains full name of driver
       const driverName = `${driver.givenName} ${driver.familyName}`;
+
+      // find driver photo
+      // findPhoto() returns a promise to fetch photo from local JSON
       const driverUrl = await findPhoto(driverName);
 
+      // data manipulation to display date of birth
+      // as MMM-dd-yyyy (instead of the default yyyy-dd-mm)
       const birth = new Date(dateOfBirth).toString().split(' ');
       const birthDay = `${birth[1]} ${birth[2]}, ${birth[3]}`;
 
+      // create a card for each driver
       return `<div class="col-lg-4 mb-3">
       <div class="card">
         <div class="img-wrapper">
@@ -36,11 +47,17 @@ async function displayDrivers(driversArray) {
     })
   );
 
+  // need to await() the variable "drivers" because the map() loop is
+  // returning a promise of driver photo within the map()
+  // without await(), then variable "drivers" returns an Object
+  // instead of an array (which is what map() returns)
   const htmlCard = (await drivers).join('');
-  output.innerHTML = htmlCard;
+
+  // display driver info and photo on screen
+  driverOutput.innerHTML = htmlCard;
 }
 
-// find photo
+// FIND DRIVER PHOTO
 async function findPhoto(driverName) {
   // fetch request to local JSON
   const res = await fetch('./assets/driverPhotos.json');

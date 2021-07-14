@@ -1,6 +1,6 @@
 import { convertDate } from './convertDate.js';
 
-const apiResults = document.getElementById('schedule-results');
+const scheduleTable = document.getElementById('schedule-table');
 
 function displaySchedule(scheduleObj) {
   const accordionItems = scheduleObj.map((schedule, index) => {
@@ -28,7 +28,7 @@ function displaySchedule(scheduleObj) {
   </tr>`;
   });
 
-  apiResults.insertAdjacentHTML('beforeend', accordionItems.join(''));
+  scheduleTable.insertAdjacentHTML('beforeend', accordionItems.join(''));
 }
 
 export { displaySchedule };

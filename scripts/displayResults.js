@@ -39,14 +39,13 @@ async function displayResults(e) {
   circuitName.textContent = `${selectedCircuit}, Round ${round}`;
 
   // fetch race results
-
   const resultsParameter = `current/${round}/results.json`;
   const raceResults = await fetchAPI(ERGAST_DEVELOPER_API + resultsParameter);
 
-  // check if race results exist
+  // check if race results exist from API
   // no race results indicate race did not happen or awaiting results
   if (raceResults.total === '0') {
-    // remove anything display
+    // remove anything displayed on screen
     removeResults();
 
     // display selection so user knows what they selected
@@ -63,12 +62,12 @@ async function displayResults(e) {
 
     // ELSE if race results do exist then...
   } else {
-    // if error message exists, then remove before displaying results
+    // if no race results message exists, then remove before displaying results
     if (document.querySelector('.no-results-message') != null) {
       document.querySelector('.no-results-message').remove();
     }
 
-    // gather race results and place into an array
+    // gather array of race results and place into a variable
     const resultsArray = raceResults.RaceTable.Races[0].Results;
 
     // create HTML and display to DOM
@@ -126,6 +125,7 @@ async function displayResults(e) {
       })
       .join('');
 
+    // display results on screen
     roundResults.innerHTML = results;
   }
 }
