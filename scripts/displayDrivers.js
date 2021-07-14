@@ -4,7 +4,11 @@ const driverOutput = document.querySelector('#display-driver');
 async function displayDrivers(driversArray) {
   // Promise.all() is used with the map() method when a
   // Promise is used within the map() loop and the multiple Promises
-  // must fully resolve
+  // must fully resolve.
+  //
+  // learn more about Promise.all() with map() here:
+  // https://dev.to/jamesliudotcc/how-to-use-async-await-with-map-and-promise-all-1gb5
+
   const drivers = Promise.all(
     // needed to set-up an async within call back function because
     // a Promise exists within the loop to fetch the photo
